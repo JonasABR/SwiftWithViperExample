@@ -20,7 +20,7 @@ extension UserDefaults{
     }
     func saveArticle(doc: Doc){
         var objects = [Doc]()
-        if let saved = getArticlesSave(){
+        if let saved = getArticlesSaved(){
             objects = saved
         }
         objects.append(doc)
@@ -28,13 +28,13 @@ extension UserDefaults{
     }
     
     func removeArticle(index: Int){
-        if var saved = getArticlesSave(){
+        if var saved = getArticlesSaved(){
             saved.remove(at: index)
             self.performSave(objects: saved)
         }
     }
     
-    func getArticlesSave() -> [Doc]?{
+    func getArticlesSaved() -> [Doc]?{
         if let savedArticlesData = UserDefaults.standard.value(forKey: UserDefaults.Keys.Articles) as? Data{
             if let archivedObj = NSKeyedUnarchiver.unarchiveObject(with: savedArticlesData) as? [Doc]{
                 return archivedObj

@@ -9,15 +9,26 @@
 import UIKit
 import Nuke
 
+protocol ArticleCellDelegate: class {
+    func saveArticle(doc: Doc)
+}
+
 class ArticleTableViewCell: UITableViewCell {
     fileprivate let nyTimesUrl = "https://www.nytimes.com/"
     @IBOutlet private var articleImageView : UIImageView!
     @IBOutlet private var articleDescription : UILabel!
-    
+    @IBOutlet private var likeButton : UIButton!
+    weak var delegate: ArticleCellDelegate?
+
     var dataSource : Doc?{
         didSet{
             bindData()
         }
+    }
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        self.likeButton.setImage(AssetsCatalog.Like, for: .selected)
     }
     
     func bindData(){
@@ -31,6 +42,13 @@ class ArticleTableViewCell: UITableViewCell {
             self.articleDescription.text = "\(snippet) \ndate: \(date)\ntype: \(doctype)"
             self.articleDescription.layoutIfNeeded()
             self.layoutIfNeeded()
+        }
+    }
+    
+    @IBAction func likeButton(_ sender: Any) {
+        self.likeButton.isSelected = !self.likeButton.isSelected
+        if let doc = dataSource{
+            self.delegate?.saveArticle(doc: doc)
         }
     }
 

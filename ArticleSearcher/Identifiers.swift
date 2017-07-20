@@ -3,6 +3,8 @@
 import UIKit
 
 struct AssetsCatalog {
+	static var Like: UIImage { return UIImage(named: "like")! }
 	static var Placeholder: UIImage { return UIImage(named: "placeholder")! }
+	static var Unlike: UIImage { return UIImage(named: "unlike")! }
 }
 

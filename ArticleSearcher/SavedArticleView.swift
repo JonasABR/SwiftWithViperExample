@@ -17,7 +17,7 @@ class SavedArticleView: ArticleSearcherView {
         super.viewWillAppear(animated)
         self.presenter?.getArticle(with: "", requestType: .offline, completion: { (objects, error) in
             self.articles = objects
-            
+            self.tableView.reloadData()
         })
     }
     

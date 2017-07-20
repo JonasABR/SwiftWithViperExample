@@ -11,13 +11,6 @@ class ArticleSearcherPresenter: ArticleSearcherPresenterProtocol, ArticleSearche
     var wireFrame: ArticleSearcherWireframeProtocol?
     
     init() {}
-    func viewWillAppearEvent(){
-        self.view?.showLoadingView()
-        self.interactor?.getArticle(with: "", requestType: .offline, completion: { (objects: [Doc]?, error: Error?) in
-            self.view?.hideLoadingView()
-            
-        })
-    }
     
     func getArticle(with keyword: String, requestType: RequestType, completion: @escaping ArticleServiceProtocol.CompletionBlock) {
         self.view?.showLoadingView()

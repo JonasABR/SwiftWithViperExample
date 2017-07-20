@@ -16,7 +16,7 @@ class ArticleSearcherView: UIViewController, ArticleSearcherViewProtocol {
     
     var articles: [Doc]?
     
-    fileprivate let cellIdentifier = "ArticleTableViewCell"
+    let cellIdentifier = "ArticleTableViewCell"
     
     //MARK: - Lifecycle
     override func viewDidLoad() {
@@ -91,6 +91,7 @@ extension ArticleSearcherView: UITableViewDataSource{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: self.cellIdentifier) as! ArticleTableViewCell
         cell.dataSource = self.articles?[indexPath.row]
+        cell.delegate = self
         return cell
     }
 }
@@ -119,5 +120,12 @@ extension ArticleSearcherView: UITextFieldDelegate{
     public func textFieldShouldReturn(_ textField: UITextField) -> Bool{
         self.searchButton(self)
         return true
+    }
+}
+
+extension ArticleSearcherView: ArticleCellDelegate{
+    func saveArticle(doc: Doc){
+        UserDefaults.standard.saveArticle(doc: doc)
+        self.tableView.setEditing(false, animated: true)
     }
 }

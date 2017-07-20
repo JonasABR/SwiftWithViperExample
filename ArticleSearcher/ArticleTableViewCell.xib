@@ -6,7 +6,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -16,7 +15,7 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="300"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="mSi-dx-aqd" id="MC9-ck-GLz">
-                <rect key="frame" x="0.0" y="0.0" width="375" height="299.5"/>
+                <rect key="frame" x="0.0" y="0.0" width="375" height="300"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="5ug-aG-gHS">
@@ -26,30 +25,45 @@
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gzu-j4-TsS">
-                        <rect key="frame" x="16" y="215.5" width="343" height="68"/>
+                        <rect key="frame" x="8" y="215.5" width="359" height="76"/>
                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yHW-g0-Czv">
+                        <rect key="frame" x="335" y="259.5" width="32" height="32"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="32" id="QlQ-00-ItD"/>
+                            <constraint firstAttribute="width" constant="32" id="ja2-eJ-fRc"/>
+                        </constraints>
+                        <state key="normal" image="unlike"/>
+                        <connections>
+                            <action selector="likeButton:" destination="mSi-dx-aqd" eventType="touchUpInside" id="ycE-dT-3yB"/>
+                        </connections>
+                    </button>
                 </subviews>
                 <constraints>
                     <constraint firstItem="5ug-aG-gHS" firstAttribute="top" secondItem="MC9-ck-GLz" secondAttribute="top" constant="8" id="Ajl-2R-042"/>
                     <constraint firstItem="5ug-aG-gHS" firstAttribute="leading" secondItem="MC9-ck-GLz" secondAttribute="leading" constant="8" id="OAo-Rx-1wG"/>
-                    <constraint firstAttribute="trailingMargin" secondItem="gzu-j4-TsS" secondAttribute="trailing" constant="8" id="eRr-ZP-edo"/>
+                    <constraint firstAttribute="trailing" secondItem="gzu-j4-TsS" secondAttribute="trailing" constant="8" id="eRr-ZP-edo"/>
                     <constraint firstAttribute="trailing" secondItem="5ug-aG-gHS" secondAttribute="trailing" constant="8" id="eVV-ka-6xA"/>
-                    <constraint firstItem="gzu-j4-TsS" firstAttribute="leading" secondItem="MC9-ck-GLz" secondAttribute="leadingMargin" constant="8" id="ooM-L3-xEU"/>
-                    <constraint firstAttribute="bottomMargin" secondItem="gzu-j4-TsS" secondAttribute="bottom" constant="8" id="owD-Dh-0TM"/>
+                    <constraint firstItem="gzu-j4-TsS" firstAttribute="leading" secondItem="MC9-ck-GLz" secondAttribute="leading" constant="8" id="ooM-L3-xEU"/>
+                    <constraint firstAttribute="bottom" secondItem="gzu-j4-TsS" secondAttribute="bottom" constant="8" id="owD-Dh-0TM"/>
+                    <constraint firstAttribute="trailing" secondItem="yHW-g0-Czv" secondAttribute="trailing" constant="8" id="pGk-Pm-ZOq"/>
                     <constraint firstItem="gzu-j4-TsS" firstAttribute="top" secondItem="5ug-aG-gHS" secondAttribute="bottom" constant="8" id="z4w-uC-Oea"/>
+                    <constraint firstAttribute="bottom" secondItem="yHW-g0-Czv" secondAttribute="bottom" constant="8" id="zyk-wE-ckh"/>
                 </constraints>
             </tableViewCellContentView>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <connections>
                 <outlet property="articleDescription" destination="gzu-j4-TsS" id="7Tw-Xb-etB"/>
                 <outlet property="articleImageView" destination="5ug-aG-gHS" id="MOX-L3-Mji"/>
+                <outlet property="likeButton" destination="yHW-g0-Czv" id="fm1-1q-QnS"/>
             </connections>
         </tableViewCell>
     </objects>
     <resources>
         <image name="placeholder" width="16" height="16"/>
+        <image name="unlike" width="16" height="16"/>
     </resources>
 </document>

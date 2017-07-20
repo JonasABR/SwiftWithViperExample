@@ -13,7 +13,7 @@ class ArticleSearcherLocalDataManager: ArticleSearcherLocalDataManagerInputProto
     }
     
     func getArticle(with keyword: String, completion: @escaping ArticleServiceProtocol.CompletionBlock){
-        guard let objects = UserDefaults.standard.getArticlesSave() else {
+        guard let objects = UserDefaults.standard.getArticlesSaved() else {
             completion(nil,nil)
             return
         }
