@@ -54,14 +54,20 @@ class ArticleSearcherView: UIViewController, ArticleSearcherViewProtocol {
         self.tableView.estimatedRowHeight = 150.0
     }
     
+    func showLoadingView(){
+        self.loadingView.startAnimating()
+    }
+    
+    func hideLoadingView(){
+        self.loadingView.stopAnimating()
+    }
+    
     //MARK: - Actions
     @IBAction func searchButton(_ sender: Any) {
         guard let searchTerm = searchTextField.text, searchTextField.text != "" else {
             return
         }
-        self.loadingView.startAnimating()
         self.presenter?.getArticle(with: searchTerm, requestType: .online, completion: { (objects, error) in
-            self.loadingView.stopAnimating()
             self.articles = objects
             self.tableView.reloadData()
             self.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)

@@ -6,7 +6,7 @@
 //  Copyright © 2017 jonas. All rights reserved.
 //
 
-import UIKit
+import Foundation
 import Unbox
 
 public enum HTTPMethod: String {

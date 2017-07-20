@@ -6,7 +6,7 @@
 //  Copyright © 2017 jonas. All rights reserved.
 //
 
-import UIKit
+import Foundation
 
 class OffflineSessionManager:  ArticleServiceProtocol{
     func getArticle(with keyword: String, completion: @escaping CompletionBlock){
