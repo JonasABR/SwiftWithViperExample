@@ -9,7 +9,7 @@ class ArticleSearcherAPIDataManager: ArticleSearcherAPIDataManagerInputProtocol,
     var apiManager: ArticleServiceProtocol?
     
     init() {
-        self.apiManager = APISessionManager()
+        self.apiManager = Services()
     }
     
     func getArticle(with keyword: String, completion: @escaping ArticleServiceProtocol.CompletionBlock){

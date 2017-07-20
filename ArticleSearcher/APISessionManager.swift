@@ -8,19 +8,11 @@
 
 
 import Foundation
-import Unbox
-
-protocol ArticleServiceProtocol: class {
-    typealias CompletionBlock = (_ objects: [Doc]?, _ error: Error?) -> Swift.Void
-    func getArticle(with keyword: String, completion: @escaping CompletionBlock)
-}
-
 
 final class APISessionManager {
-    fileprivate let urlNYArticleSearch = "https://api.nytimes.com/svc/search/v2/articlesearch.json"
     fileprivate let apiKey = "e515593b026c49a680d4c918c4723481"
     
-    fileprivate func request(_ url: String , method: HTTPMethod, params : Parameters?, completion: @escaping(_ successCallback: [String: Any]?, _ error: Error?)-> Swift.Void){
+    func request(_ url: String , method: HTTPMethod, params : Parameters?, completion: @escaping(_ successCallback: [String: Any]?, _ error: Error?)-> Swift.Void){
         
         let session = URLSession.shared
         var request = URLRequest(url: URL(string: url + "?api-key=\(apiKey)")!)
@@ -57,16 +49,4 @@ final class APISessionManager {
     }
 }
 
-extension APISessionManager : ArticleServiceProtocol{
-    func getArticle(with keyword: String, completion: @escaping ArticleServiceProtocol.CompletionBlock) {
-        let params: Parameters = ["q" : keyword]
-        self.request(self.urlNYArticleSearch, method: .get, params: params) { (response: [String : Any]?, error: Error?) in
-            if let response = response?["response"] as? [String: Any], let docs = response["docs"] as? [[String: Any]]{
-                let returnValue: [Doc] = docs.flatMap({try? unbox(dictionary: $0)})
-                    completion(returnValue, nil)
-            } else{
-                completion(nil,error)
-            }
-        }
-    }
-}
+
