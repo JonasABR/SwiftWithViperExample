@@ -31,6 +31,13 @@ class ArticleTableViewCell: UITableViewCell {
         self.likeButton.setImage(AssetsCatalog.Like, for: .selected)
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        self.articleImageView.image = AssetsCatalog.Placeholder
+        self.likeButton.isSelected = false
+    }
+
+    
     func bindData(){
         if (self.dataSource?.multimedia?.count)! > 0 , let imageUrl = self.dataSource?.multimedia?[0].url{
             self.articleImageView.setImage(url: URL(string: nyTimesUrl + imageUrl), placeholder: AssetsCatalog.Placeholder
