@@ -10,7 +10,7 @@
 import Foundation
 import Unbox
 
-protocol ArticleServiceProtocol {
+protocol ArticleServiceProtocol: class {
     typealias CompletionBlock = (_ objects: [Doc]?, _ error: Error?) -> Swift.Void
     func getArticle(with keyword: String, completion: @escaping CompletionBlock)
 }

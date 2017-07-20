@@ -1,20 +1,21 @@
 //
-//  ArticleSearcherViewController.swift
-//  ArticleSearcher
-//
-//  Created by Jonas on 7/18/17.
-//  Copyright © 2017 jonas. All rights reserved.
+// Created by Jonas Simões
+// Copyright (c) 2017 Jonas. All rights reserved.
 //
 
+import Foundation
 import UIKit
 
-class ArticleSearcherViewController: UIViewController {
+class ArticleSearcherView: UIViewController, ArticleSearcherViewProtocol {
+    var presenter: ArticleSearcherPresenterProtocol?
+    
     @IBOutlet var tableView: UITableView!
     @IBOutlet var searchTextField: UITextField!
     @IBOutlet var loadingView: UIActivityIndicatorView!
     @IBOutlet var alertView: UIView!
-    var apiManager: ArticleServiceProtocol?
+    
     var articles: [Doc]?
+    
     fileprivate let cellIdentifier = "ArticleTableViewCell"
     
     //MARK: - Lifecycle
@@ -23,14 +24,13 @@ class ArticleSearcherViewController: UIViewController {
         self.navigationItem.title = "Article Searcher"
         self.setupTableView()
         self.setupAlertView()
-        self.apiManager = APISessionManager()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         if self.alertView != nil{
             UIView.animate(withDuration: 2.0, delay: 2.0, options: .curveEaseIn, animations: {
                 self.alertView.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
-
+                
             }) { (finished) in
                 if(finished){
                     self.alertView.removeFromSuperview()
@@ -38,7 +38,7 @@ class ArticleSearcherViewController: UIViewController {
             }
         }
     }
-
+    
     //MARK: - Helpers
     private func setupAlertView(){
         if self.alertView != nil{
@@ -53,35 +53,32 @@ class ArticleSearcherViewController: UIViewController {
         self.tableView.rowHeight = UITableViewAutomaticDimension
         self.tableView.estimatedRowHeight = 150.0
     }
-
+    
     //MARK: - Actions
     @IBAction func searchButton(_ sender: Any) {
         guard let searchTerm = searchTextField.text, searchTextField.text != "" else {
             return
         }
         self.loadingView.startAnimating()
-        self.apiManager?.getArticle(with: searchTerm) { (objects: [Doc]?, error: Error?) in
-            if objects != nil{
-                self.loadingView.stopAnimating()
-                self.articles = objects
-                self.tableView.reloadData()
-                self.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
-            }
-        }
+        self.presenter?.getArticle(with: searchTerm, requestType: .online, completion: { (objects, error) in
+            self.loadingView.stopAnimating()
+            self.articles = objects
+            self.tableView.reloadData()
+            self.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+
+        })
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "openWebView"{
-            let vc = segue.destination as! ReaderViewController
-            guard let indexPath = sender as? IndexPath else{
-                return
-            }
-            vc.articleUrl =  self.articles?[indexPath.row].webUrl
+    func pushToReaderViewController(_ doc: Doc){
+        if let newsViewController = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "ReaderViewController") as? ReaderViewController{
+            newsViewController.articleUrl = doc.webUrl
+            self.navigationController?.pushViewController(newsViewController, animated: true)
         }
     }
 }
+
 //MARK: Extension
-extension ArticleSearcherViewController: UITableViewDataSource{
+extension ArticleSearcherView: UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.articles?.count ?? 0
     }
@@ -92,14 +89,15 @@ extension ArticleSearcherViewController: UITableViewDataSource{
     }
 }
 
-extension ArticleSearcherViewController: UITableViewDelegate{
+extension ArticleSearcherView: UITableViewDelegate{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: false)
-        self.performSegue(withIdentifier: "openWebView", sender: indexPath)
+        if let doc = self.articles?[indexPath.row]{
+            self.pushToReaderViewController(doc)
+        }
     }
     
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-        
         let rateAction = UITableViewRowAction(style: .normal, title: "Save") { (action , indexPath ) -> Void in
             guard let article = self.articles?[indexPath.row] else{
                 return
@@ -108,5 +106,12 @@ extension ArticleSearcherViewController: UITableViewDelegate{
             self.tableView.setEditing(false, animated: true)
         }
         return [rateAction]
+    }
+}
+
+extension ArticleSearcherView: UITextFieldDelegate{
+    public func textFieldShouldReturn(_ textField: UITextField) -> Bool{
+        self.searchButton(self)
+        return true
     }
 }
