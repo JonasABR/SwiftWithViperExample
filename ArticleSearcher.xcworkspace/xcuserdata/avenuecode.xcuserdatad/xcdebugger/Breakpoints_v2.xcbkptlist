@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ArticleSearcher/ArticleTableViewCell.swift"
-            timestampString = "522115878.052006"
+            timestampString = "522189431.961431"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "30"
-            endingLineNumber = "30"
+            startingLineNumber = "32"
+            endingLineNumber = "32"
             landmarkName = "bindData()"
             landmarkType = "7">
          </BreakpointContent>
@@ -90,11 +90,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ArticleSearcher/ArticleSearcherViewController.swift"
-            timestampString = "522169051.661164"
+            timestampString = "522210691.109291"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "35"
-            endingLineNumber = "35"
+            startingLineNumber = "62"
+            endingLineNumber = "62"
             landmarkName = "searchButton(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -102,32 +102,80 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ArticleSearcher/UserDefaultsExtension.swift"
-            timestampString = "522179697.974939"
+            timestampString = "522188798.855459"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "16"
-            endingLineNumber = "16"
-            landmarkName = "saveArticle(doc:)"
+            startingLineNumber = "38"
+            endingLineNumber = "38"
+            landmarkName = "getArticlesSave()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(extension in ArticleSearcher):__ObjC.UserDefaults.getArticlesSave () -&gt; Swift.Optional&lt;Swift.Array&lt;ArticleSearcher.Doc&gt;&gt;"
+                  moduleName = "ArticleSearcher"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/avenuecode/Documents/prjs/ArticleSearcher/ArticleSearcher/UserDefaultsExtension.swift"
+                  timestampString = "522189433.111882"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "38"
+                  endingLineNumber = "38"
+                  offsetFromSymbolStart = "15">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(extension in ArticleSearcher):__ObjC.UserDefaults.getArticlesSave () -&gt; Swift.Optional&lt;Swift.Array&lt;ArticleSearcher.Doc&gt;&gt;"
+                  moduleName = "ArticleSearcher"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/avenuecode/Documents/prjs/ArticleSearcher/ArticleSearcher/UserDefaultsExtension.swift"
+                  timestampString = "522189433.115121"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "38"
+                  endingLineNumber = "38"
+                  offsetFromSymbolStart = "727">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ArticleSearcher/Docs.swift"
+            timestampString = "522187877.201463"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "81"
+            endingLineNumber = "81"
+            landmarkName = "init(coder:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "ArticleSearcher/UserDefaultsExtension.swift"
-            timestampString = "522179929.616801"
+            filePath = "ArticleSearcher/Docs.swift"
+            timestampString = "522187879.311071"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "20"
-            endingLineNumber = "20"
-            landmarkName = "saveArticle(doc:)"
+            startingLineNumber = "89"
+            endingLineNumber = "89"
+            landmarkName = "encode(with:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

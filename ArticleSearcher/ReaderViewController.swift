@@ -12,6 +12,7 @@ class ReaderViewController: UIViewController {
     @IBOutlet var webView :UIWebView!
     @IBOutlet var loadingView :UIActivityIndicatorView!
     var articleUrl : String?
+    //MARK: Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         if let url = articleUrl{
@@ -20,7 +21,7 @@ class ReaderViewController: UIViewController {
         }
     }
 }
-
+//MARK: Extension
 extension ReaderViewController: UIWebViewDelegate{
     func webViewDidFinishLoad(_ webView: UIWebView){
         self.loadingView.stopAnimating()

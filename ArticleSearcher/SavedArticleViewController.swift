@@ -8,16 +8,30 @@
 
 import UIKit
 
-class SecondViewController: UIViewController {
-
+class SavedArticleViewController: ArticleSearcherViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        self.apiManager = OffflineSessionManager()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.apiManager?.getArticle(with: "") { (objects :[Doc]?, error: Error?) in
+            self.articles = objects
+            super.tableView.reloadData()
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        
+        let rateAction = UITableViewRowAction(style: .destructive, title: "Delete") { (action , indexPath ) -> Void in
+            UserDefaults.standard.removeArticle(index: indexPath.row)
+            self.articles?.remove(at: indexPath.row)
+            self.tableView.reloadData()
+        }
+        return [rateAction]
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
+
 }
 

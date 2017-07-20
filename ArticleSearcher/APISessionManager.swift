@@ -12,7 +12,7 @@ import Unbox
 
 protocol ArticleServiceProtocol {
     typealias CompletionBlock = (_ objects: [Doc]?, _ error: Error?) -> Swift.Void
-    func getArticle(keyword: String, completion: @escaping CompletionBlock)
+    func getArticle(with keyword: String, completion: @escaping CompletionBlock)
 }
 
 
@@ -58,7 +58,7 @@ final class APISessionManager {
 }
 
 extension APISessionManager : ArticleServiceProtocol{
-    func getArticle(keyword: String, completion: @escaping ArticleServiceProtocol.CompletionBlock) {
+    func getArticle(with keyword: String, completion: @escaping ArticleServiceProtocol.CompletionBlock) {
         let params: Parameters = ["q" : keyword]
         self.request(self.urlNYArticleSearch, method: .get, params: params) { (response: [String : Any]?, error: Error?) in
             if let response = response?["response"] as? [String: Any], let docs = response["docs"] as? [[String: Any]]{

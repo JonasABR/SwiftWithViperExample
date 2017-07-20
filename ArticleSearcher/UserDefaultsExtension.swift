@@ -12,15 +12,34 @@ extension UserDefaults{
         static let Articles = "articlesSaved"
     }
     
+    func performSave(objects : [Doc]){
+        let encodeData = NSKeyedArchiver.archivedData(withRootObject: objects)
+        UserDefaults.standard.set(encodeData, forKey: UserDefaults.Keys.Articles)
+        UserDefaults.standard.synchronize()
+
+    }
     func saveArticle(doc: Doc){
-        if var savedArticles = UserDefaults.standard.value(forKey: UserDefaults.Keys.Articles) as? [Doc]{
-            savedArticles.append(doc)
-            UserDefaults.standard.set(savedArticles, forKey: UserDefaults.Keys.Articles)
-        } else{
-            let encodeData = NSKeyedArchiver.archivedData(withRootObject: doc)
-            
-            let articles = [encodeData]
-            UserDefaults.standard.set(articles, forKey: UserDefaults.Keys.Articles)
+        var objects = [Doc]()
+        if let saved = getArticlesSave(){
+            objects = saved
         }
+        objects.append(doc)
+        self.performSave(objects: objects)
+    }
+    
+    func removeArticle(index: Int){
+        if var saved = getArticlesSave(){
+            saved.remove(at: index)
+            self.performSave(objects: saved)
+        }
+    }
+    
+    func getArticlesSave() -> [Doc]?{
+        if let savedArticlesData = UserDefaults.standard.value(forKey: UserDefaults.Keys.Articles) as? Data{
+            if let archivedObj = NSKeyedUnarchiver.unarchiveObject(with: savedArticlesData) as? [Doc]{
+                return archivedObj
+            }
+        }
+        return nil
     }
 }

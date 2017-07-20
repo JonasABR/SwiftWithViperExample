@@ -12,28 +12,55 @@ class ArticleSearcherViewController: UIViewController {
     @IBOutlet var tableView: UITableView!
     @IBOutlet var searchTextField: UITextField!
     @IBOutlet var loadingView: UIActivityIndicatorView!
-    let apiManager = APISessionManager()
+    @IBOutlet var alertView: UIView!
+    var apiManager: ArticleServiceProtocol?
     var articles: [Doc]?
-    fileprivate let cellIdentifier = "articleSnippet"
+    fileprivate let cellIdentifier = "ArticleTableViewCell"
     
+    //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.tableView.rowHeight = UITableViewAutomaticDimension
-        self.tableView.estimatedRowHeight = 150.0
         self.navigationItem.title = "Article Searcher"
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+        self.setupTableView()
+        self.setupAlertView()
+        self.apiManager = APISessionManager()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        if self.alertView != nil{
+            UIView.animate(withDuration: 2.0, delay: 2.0, options: .curveEaseIn, animations: {
+                self.alertView.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
+
+            }) { (finished) in
+                if(finished){
+                    self.alertView.removeFromSuperview()
+                }
+            }
+        }
+    }
+
+    //MARK: - Helpers
+    private func setupAlertView(){
+        if self.alertView != nil{
+            self.alertView.layer.cornerRadius = 8
+            self.alertView.layer.masksToBounds = true
+        }
+    }
+    
+    private func setupTableView() {
+        self.tableView.register(UINib(nibName: cellIdentifier, bundle: Bundle.main),
+                                forCellReuseIdentifier: cellIdentifier)
+        self.tableView.rowHeight = UITableViewAutomaticDimension
+        self.tableView.estimatedRowHeight = 150.0
+    }
+
+    //MARK: - Actions
     @IBAction func searchButton(_ sender: Any) {
         guard let searchTerm = searchTextField.text, searchTextField.text != "" else {
             return
         }
         self.loadingView.startAnimating()
-        apiManager.getArticle(keyword: searchTerm) { (objects: [Doc]?, error: Error?) in
+        self.apiManager?.getArticle(with: searchTerm) { (objects: [Doc]?, error: Error?) in
             if objects != nil{
                 self.loadingView.stopAnimating()
                 self.articles = objects
@@ -46,18 +73,15 @@ class ArticleSearcherViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "openWebView"{
             let vc = segue.destination as! ReaderViewController
-            guard let cell = sender as? ArticleTableViewCell else{
+            guard let indexPath = sender as? IndexPath else{
                 return
             }
-            vc.articleUrl = cell.dataSource?.webUrl
+            vc.articleUrl =  self.articles?[indexPath.row].webUrl
         }
     }
 }
-
-extension ArticleSearcherViewController: UITableViewDelegate, UITableViewDataSource{
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
+//MARK: Extension
+extension ArticleSearcherViewController: UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.articles?.count ?? 0
     }
@@ -66,22 +90,23 @@ extension ArticleSearcherViewController: UITableViewDelegate, UITableViewDataSou
         cell.dataSource = self.articles?[indexPath.row]
         return cell
     }
-    
+}
+
+extension ArticleSearcherViewController: UITableViewDelegate{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: false)
+        self.performSegue(withIdentifier: "openWebView", sender: indexPath)
     }
     
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         
         let rateAction = UITableViewRowAction(style: .normal, title: "Save") { (action , indexPath ) -> Void in
-            self.tableView.endEditing(true)
             guard let article = self.articles?[indexPath.row] else{
                 return
             }
             UserDefaults.standard.saveArticle(doc: article)
+            self.tableView.setEditing(false, animated: true)
         }
         return [rateAction]
-
     }
 }
-
