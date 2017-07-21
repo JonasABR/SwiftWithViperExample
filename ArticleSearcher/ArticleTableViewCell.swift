@@ -26,7 +26,6 @@ class ArticleTableViewCell: UITableViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        self.articleImageView.image = AssetsCatalog.Placeholder
     }
 
     

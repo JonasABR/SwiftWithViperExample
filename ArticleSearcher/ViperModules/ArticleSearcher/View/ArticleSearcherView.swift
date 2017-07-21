@@ -15,7 +15,7 @@ class ArticleSearcherView: UIViewController, ArticleSearcherViewProtocol {
     @IBOutlet var alertView: UIView!
     
     var articles: [Doc]?
-    
+    private let navigationDelegate = TransitionAnimator()
     let cellIdentifier = "ArticleTableViewCell"
     
     //MARK: - Lifecycle
@@ -27,6 +27,8 @@ class ArticleSearcherView: UIViewController, ArticleSearcherViewProtocol {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.delegate = navigationDelegate
         if self.alertView != nil{
             UIView.animate(withDuration: 2.0, delay: 2.0, options: .curveEaseIn, animations: {
                 self.alertView.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
@@ -89,7 +91,7 @@ extension ArticleSearcherView: UITableViewDataSource{
         return self.articles?.count ?? 0
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: self.cellIdentifier) as! ArticleTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: self.cellIdentifier, for: indexPath) as! ArticleTableViewCell
         cell.dataSource = self.articles?[indexPath.row]
         return cell
     }

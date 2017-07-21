@@ -15,6 +15,7 @@ class ReaderViewController: UIViewController {
     //MARK: Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationController?.delegate = nil
         if let url = articleUrl{
             self.webView.loadRequest(URLRequest(url: URL(string: url)!))
             self.loadingView.startAnimating()
