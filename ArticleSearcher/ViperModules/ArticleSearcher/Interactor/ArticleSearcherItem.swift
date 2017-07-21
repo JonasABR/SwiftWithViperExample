@@ -6,7 +6,7 @@
 import Foundation
 
 struct ArticleSearcherItem {
-    //i didnt use it cause struct dont have suport to nsencoding, so using the same model as model class 
+    //i didnt use it cause struct dont have suport to nsencoding, so using the same model as model class
 }
 
 enum RequestType {
